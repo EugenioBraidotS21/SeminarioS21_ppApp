@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     private void inicializar() {
-        // 1. Cargar productos base (los mostrados en la imagen)
+        // Armamos un array como catalogo de productos hasta tener la Base operativa
         List<ProductDTO> catalogo = new ArrayList<ProductDTO>();
         catalogo.add(new ProductDTO("Bon o Bon", 500, "Golosinas"));
         catalogo.add(new ProductDTO("Alfajor Guaylen x40", 250, "Golosinas"));
@@ -38,7 +38,7 @@ public class ProductController {
 
         this.model.setListaProductos(catalogo);
 
-        // 2. Agrupar por rubro (filtrando según lo seleccionado en la pantalla previa si corresponde)
+        //Agrupamos por rubro (filtrando según lo seleccionado en la pantalla previa si corresponde)
         Map<String, List<ProductDTO>> agrupados = new LinkedHashMap<>();
         for (ProductDTO p : catalogo) {
             if (rubrosFiltro == null || rubrosFiltro.isEmpty() || rubrosFiltro.contains(p.getRubro())) {
@@ -46,10 +46,10 @@ public class ProductController {
             }
         }
 
-        // 3. Renderizar la lista
+        //El controller envia a renderiza la lista
         this.view.renderizarProductosPorRubro(agrupados, model.getMapaCantidades(), this::onProductoSeleccionado);
 
-        // 4. Configurar eventos del modal emergente
+        // Configura los eventos del modal emergente
         view.getBtnMenos().setOnAction(e -> {
             model.decrementarCantidad();
             view.actualizarCantidadModal(model.getCantidadSeleccionada());
@@ -72,16 +72,16 @@ public class ProductController {
         ProductDTO seleccionado = model.getProductoSeleccionado();
         if (seleccionado == null) return;
 
-        // 1. El modelo acumula la cantidad en el carrito
+        //El modelo acumula la cantidad en el carrito
         model.confirmarSeleccionActual();
 
-        // 2. Le pedimos al modelo la cantidad acumulada para este producto
+        //Le pedimos al modelo la cantidad acumulada para este producto
         int cantidadTotal = model.getCantidad(seleccionado.getId());
 
-        // 3. Le decimos a la vista que actualice SOLO esa fila usando su ID y cantidad
+        //Le decimos a la vista que actualice SOLO esa fila usando su ID y cantidad
         view.actualizarCantidadProductoFila(seleccionado.getId(), cantidadTotal);
 
-        // 4. Cerramos el modal
+        // Cerramos el modal
         view.ocultarModal();
     }
 }

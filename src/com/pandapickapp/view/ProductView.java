@@ -238,15 +238,15 @@ public class ProductView {
                 cardFila.setOnMouseEntered(e -> cardFila.setStyle(estiloHover));
                 cardFila.setOnMouseExited(e -> cardFila.setStyle(estiloBase));
 
-                // 1. Nombre y precio
+                // Etiqueta de Nombre y precio
                 Label lblTexto = new Label(p.getTextoFormateado());
                 lblTexto.setStyle("-fx-font-size: 13px; -fx-font-weight: 500; -fx-text-fill: #111827;");
 
-                // 2. Espaciador flexible para empujar la cantidad a la derecha
+                // Espaciador flexible para empujar la cantidad a la derecha
                 Region espaciador = new Region();
                 HBox.setHgrow(espaciador, Priority.ALWAYS);
 
-                // 3. Etiqueta / Badge de cantidad (inicia en 0)
+                //Etiqueta / Badge de cantidad (inicia en 0)
                 int cant = (cantidadesIniciales != null && cantidadesIniciales.containsKey(p.getId())) 
                             ? cantidadesIniciales.get(p.getId()) 
                             : 0;
@@ -281,7 +281,6 @@ public class ProductView {
 
     private void aplicarEstiloCantidad(Label lbl, int cantidad) {
         if (cantidad > 0) {
-            // Destacado si hay unidades seleccionadas
             lbl.setStyle(
                 "-fx-background-color: #111827; " +
                 "-fx-text-fill: #ffffff; " +
@@ -291,7 +290,6 @@ public class ProductView {
                 "-fx-background-radius: 10px;"
             );
         } else {
-            // Estilo neutro y sutil para cantidad 0
             lbl.setStyle(
                 "-fx-background-color: transparent; " +
                 "-fx-text-fill: #9ca3af; " +

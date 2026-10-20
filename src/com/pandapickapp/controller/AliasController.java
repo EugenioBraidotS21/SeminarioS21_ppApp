@@ -12,6 +12,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/*
+ * AliasController:
+ * 					En esta clase manejamos lo referente al Alias, 
+ * 					controler se lo pasa al modelo para que lo conserve y 
+ * 					se lo da a conocer a la Vista.
+ * */
+
 public class AliasController {
     private AliasModel model;
     private AliasView view;
@@ -64,15 +71,12 @@ public class AliasController {
             model.setAlias(texto);
             System.out.println("Alias válido: " + model.getAlias());
 
-            // 1. Instanciar Modelo, Vista y Controlador de Rubros
             RubrosModel rubrosModel = new RubrosModel();
             RubrosView rubrosView = new RubrosView(model);
             new RubrosController(rubrosModel, rubrosView, stage);
 
-            // 2. Crear la escena con las dimensiones correspondientes
             Scene rubrosScene = new Scene(rubrosView.getRoot(), 1000, 1000);
 
-            // 3. Cambiar la escena en la ventana actual
             stage.setTitle("PandaPickApp - Selección de Rubros");
             stage.setScene(rubrosScene);
             }
@@ -81,18 +85,18 @@ public class AliasController {
     private void onCancelar() {
         System.out.println("Cancelando ingreso de alias y regresando a Welcome...");
 
-        // 1. Guardar referencia temporal del Stage antes de anular referencias
+        // Guardar la referencia temporal del Stage antes de anular referencias
         Stage currentStage = this.stage;
 
-        // 2. Liberar recursos y estado de este controlador (dispose)
+        //Libera recursos y el estado de este controlador.
         dispose();
 
-        // 3. Recrear e inicializar el módulo Welcome
+        //Recrea e inicializa el módulo Welcome
         WelcomeModel welcomeModel = new WelcomeModel();
         WelcomeView welcomeView = new WelcomeView();
         new WelcomeController(welcomeModel, welcomeView, currentStage);
 
-        // 4. Cambiar la escena de regreso a Welcome
+        //Cambia la escena de regreso a Welcome
         Scene welcomeScene = new Scene(welcomeView.getRoot(), 380, 520);
         currentStage.setTitle("PandaPickApp - Bienvenido");
         currentStage.setScene(welcomeScene);
@@ -109,13 +113,13 @@ public class AliasController {
             this.view.getBtnCancelar().setOnAction(null);
             this.view.getTxtAlias().setOnAction(null);
 
-            // Desacoplar el listener de texto
+            // Desacopla el listener de texto
             if (textChangeListener != null) {
                 this.view.getTxtAlias().textProperty().removeListener(textChangeListener);
                 textChangeListener = null;
             }
 
-            // Limpiar inputs visuales
+            // Limpia los inputs visuales
             this.view.limpiarVista();
         }
 
@@ -123,7 +127,7 @@ public class AliasController {
             model.setAlias("");
         }
 
-        // Anular referencias internas
+        // Anula las referencias internas
         this.model = null;
         this.view = null;
         this.stage = null;

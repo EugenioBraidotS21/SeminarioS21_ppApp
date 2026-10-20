@@ -43,14 +43,14 @@ public class ProductModel {
     }
 
     public void decrementarCantidad() {
-        if (this.cantidadSeleccionada > 1) {
-            this.cantidadSeleccionada--;
+        if (this.cantidadSeleccionada <=1) {
+        	throw new IllegalStateException("La cantidad no puede ser menor a 1.");
         }
+        this.cantidadSeleccionada--;
     }
-
     public void confirmarSeleccionActual() {
         if (productoSeleccionado == null) {
-            return;
+        	throw new IllegalStateException("Debe seleccionar un producto para poder continuar.");
         }
 
         // Buscar si ya existe una entrada para este producto por ID

@@ -25,7 +25,7 @@ public class RubrosController {
     }
 
     private void inicializar() {
-        // 1. Armar la lista de rubros de la pantalla
+        //Arma la lista de rubros
         List<String> rubros = Arrays.asList(
             "Golosinas",
             "Bebidas",
@@ -33,11 +33,11 @@ public class RubrosController {
             "Panificados"
         );
 
-        // 2. Pasarlos al modelo y a la vista
+        //Pasar al modelo y a la vista
         model.setRubrosDisponibles(rubros);
         view.cargarRubros(rubros);
 
-        // 3. Vincular cambios de estado de cada CheckBox con el modelo
+        //Vinculamos cambios de estado de cada CheckBox con el modelo
         for (String rubro : rubros) {
             CheckBox cb = view.getCheckBoxes().get(rubro);
             if (cb != null) {
@@ -47,13 +47,13 @@ public class RubrosController {
             }
         }
 
-        // 4. Seleccionar 'Golosinas' por defecto tal como aparece en la imagen
+        // Seleccionar 'Golosinas' por defecto tal como aparece en la imagen
         CheckBox cbGolosinas = view.getCheckBoxes().get("Golosinas");
         if (cbGolosinas != null) {
             cbGolosinas.setSelected(true);
         }
 
-        // 5. Manejar clic en "Ver productos"
+        // Manejar clic en "Ver productos"
         view.getBtnVerProductos().setOnAction(e -> onVerProductosClicked());
     }
 
@@ -65,12 +65,12 @@ public class RubrosController {
 
         System.out.println("Rubros seleccionados: " + model.getRubrosSeleccionados());
 
-        // 1. Instanciar el MVC de Productos pasando los rubros seleccionados
+        //Instancia el MVC de Productos pasando los rubros seleccionados
         ProductModel prodModel = new ProductModel();
         ProductView prodView = new ProductView();
         new ProductController(prodModel, prodView, stage, model.getRubrosSeleccionados());
 
-        // 2. Crear y fijar la nueva escena en el Stage actual
+        //Crear y fijar la nueva escena en el Stage actual
         Scene scene = new Scene(prodView.getRoot(), 380, 520);
         stage.setTitle("PandaPickApp - Elegí tus productos");
         stage.setScene(scene);
