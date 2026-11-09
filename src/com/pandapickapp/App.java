@@ -37,7 +37,7 @@ public class App extends Application {
         new WelcomeController(model, view, primaryStage);
         
         // Configuración de la ventana inicial
-        Scene scene = new Scene(view.getRoot(), 1000, 1000);
+        Scene scene = view.crearEscena();
         primaryStage.setTitle("Bienvenido a Panda Pick APP");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

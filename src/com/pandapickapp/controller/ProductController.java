@@ -6,38 +6,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import com.pandapickapp.commons.ProductDTO;
 import com.pandapickapp.model.ProductModel;
 import com.pandapickapp.view.ProductView;
 
 import javafx.stage.Stage;
 
-public class ProductController {
-    private ProductModel model;
-    private ProductView view;
-    private Stage stage;
+/*
+ * ProductControler():
+ * 				Contructor que recibe Model, View, Stage y una lista de rubros seleccionados.
+ * ProductController<M,V> : 
+ * 					ProductController extiende de la clase BaseController
+ * 					aquellos metodos comunes. 
+ * 					Podemos decir coloquialmente, que el controller conoce
+ * 					al modelo y a la vista.  
+ * */
+public class ProductController extends BaseController<ProductModel, ProductView> {
     private Set<String> rubrosFiltro;
-  
-    
+
     public ProductController(ProductModel model, ProductView view, Stage stage, Set<String> rubrosFiltro) {
-        this.model = model;
-        this.view = view;
-        this.stage = stage;
+        super(model, view, stage);
         this.rubrosFiltro = rubrosFiltro;
         inicializar();
     }
 
-      
-    private void inicializar() {
-        // Armamos un array como catalogo de productos hasta tener la Base operativa
+    @Override
+    protected void inicializar() {
         List<ProductDTO> catalogo = model.cargarCatalogoDesdeBD();
-        this.model.setListaProductos(catalogo);
+        model.setListaProductos(catalogo);
 
         //Agrupamos por rubro (filtrando según lo seleccionado en la pantalla previa si corresponde)
         Map<String, List<ProductDTO>> agrupados = new LinkedHashMap<>();
@@ -48,12 +44,14 @@ public class ProductController {
         }
 
         //El controller envia a renderiza la lista
-        this.view.renderizarProductosPorRubro(agrupados, model.getMapaCantidades(), this::onProductoSeleccionado);
+        view.renderizarProductosPorRubro(agrupados, model.getMapaCantidades(), this::onProductoSeleccionado);
 
         // Configura los eventos del modal emergente
         view.getBtnMenos().setOnAction(e -> {
-            model.decrementarCantidad();
-            view.actualizarCantidadModal(model.getCantidadSeleccionada());
+            if (model.getCantidadSeleccionada() > 1) {
+                model.decrementarCantidad();
+                view.actualizarCantidadModal(model.getCantidadSeleccionada());
+            }
         });
 
         view.getBtnMas().setOnAction(e -> {

@@ -16,23 +16,25 @@ import javafx.stage.Stage;
  * 					En esta clase manejamos lo referente al Alias, 
  * 					controler se lo pasa al modelo para que lo conserve y 
  * 					se lo da a conocer a la Vista.
+ * BaseController<M,V> : 
+ * 					AliasController extiende de la clase BaseController
+ * 					aquellos metodos comunes a todos los controller. 
+ * 					Podemos decir coloquialmente, que el controller conoce
+ * 					al modelo y a la vista.  
+ * 
  * */
 
-public class AliasController {
-    private AliasModel aliasmodel;
+public class AliasController extends BaseController<AliasModel, AliasView> {
     private RubrosModel rubrosModel;
-    private AliasView view;
-    private Stage stage;
     private ChangeListener<String> textChangeListener;
-    
+
     public AliasController(AliasModel model, AliasView view, Stage stage) {
-        this.aliasmodel = model;
-        this.view = view;
-        this.stage = stage;
+        super(model, view, stage);
         inicializar();
     }
 
-    private void inicializar() {
+    @Override
+    protected void inicializar() {
         // Listener único para limitar la escritura a un máximo de caracteres y limpiar errores
         textChangeListener = (obs, oldValue, newValue) -> {
             view.limpiarError();
@@ -47,30 +49,30 @@ public class AliasController {
 
         // Permitir pulsar Enter en el campo de texto
         view.getTxtAlias().setOnAction(e -> onContinuar());
-        
+
         view.getBtnAtras().setOnAction(e -> onAtras());
     }
 
     private void onContinuar() {
         String texto = view.getTxtAlias().getText();
-        String error = aliasmodel.validar(texto);
-        
+        String error = model.validar(texto);
+
         if (error != null) {
             view.mostrarError(error);
         } else {
             view.limpiarError();
-            aliasmodel.setAlias(texto);
-            System.out.println("Alias válido: " + aliasmodel.getAlias());
-            this.rubrosModel= new RubrosModel();
+            model.setAlias(texto);
+            System.out.println("Alias válido: " + model.getAlias());
+            this.rubrosModel = new RubrosModel();
             // Inicializamos el modelo de rubros y se lo pasamos a su respectiva vista/controlador
-            RubrosView rubrosView = new RubrosView(this.aliasmodel, this.rubrosModel);
-            Scene rubrosScene = new Scene(rubrosView.getRoot(), 380, 520);
+            RubrosView rubrosView = new RubrosView(this.model, this.rubrosModel);
+            Scene rubrosScene = rubrosView.crearEscena();
             stage.setTitle("PandaPickApp - Selección de Rubros");
             new RubrosController(this.rubrosModel, rubrosView, stage);
             stage.setScene(rubrosScene);
         }
     }
-    
+
     private void onAtras() {
         System.out.println("Cancelando ingreso de alias y regresando a Welcome...");
 
@@ -82,31 +84,24 @@ public class AliasController {
         WelcomeView welcomeView = new WelcomeView();
         new WelcomeController(welcomeModel, welcomeView, currentStage);
 
-        Scene welcomeScene = new Scene(welcomeView.getRoot(), 380, 520);
+        Scene welcomeScene = welcomeView.crearEscena();
         currentStage.setTitle("PandaPickApp - Bienvenido");
         currentStage.setScene(welcomeScene);
     }
 
+    @Override
     public void dispose() {
-        if (this.view != null) {
-            this.view.getBtnContinuar().setOnAction(null);
-            this.view.getBtnAtras().setOnAction(null);
-            this.view.getTxtAlias().setOnAction(null);
+        if (view != null) {
+            view.getBtnContinuar().setOnAction(null);
+            view.getBtnAtras().setOnAction(null);
+            view.getTxtAlias().setOnAction(null);
 
             if (textChangeListener != null) {
-                this.view.getTxtAlias().textProperty().removeListener(textChangeListener);
+                view.getTxtAlias().textProperty().removeListener(textChangeListener);
                 textChangeListener = null;
             }
-
-            this.view.limpiarVista();
         }
 
-        if (aliasmodel != null) {
-            aliasmodel.setAlias("");
-        }
-
-        this.aliasmodel = null;
-        this.view = null;
-        this.stage = null;
+        super.dispose();
     }
 }

@@ -9,7 +9,6 @@ import com.pandapickapp.model.RubrosModel;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -18,8 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-public class RubrosView {
-    private VBox root;
+public class RubrosView extends BaseView<VBox> {
     private VBox contenedorRubros;
     private Button btnVerProductos;
     private Button btnAtrasProductos;
@@ -35,7 +33,8 @@ public class RubrosView {
     }
 
 
-    private void crearInterfaz() {
+    @Override
+    protected void crearInterfaz() {
         
     	 Label lblHeader = new Label("Bienvenido/a "+ aliasModel.getAlias().toUpperCase());
     	 lblHeader.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;");
@@ -152,30 +151,17 @@ public class RubrosView {
         }
     }
 
-    public Parent getRoot() {
-        return root;
-    }
-
-
     public Map<String, CheckBox> getCheckBoxes() {
         return checkBoxes;
     }
 
 
-	public void limpiarVista() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	public Button getBtnVerProductos() {
-		// TODO Auto-generated method stub
 		return btnVerProductos;
 	}
 
 
 	public Button getBtnAtrasProducto() {
-		// TODO Auto-generated method stub
 		return  btnAtrasProductos;
 	}
 }

@@ -1,6 +1,6 @@
 package com.pandapickapp.model;
 
-public class AliasModel {
+public class AliasModel extends BaseModel<Void> {
     private String alias;
     public static final int MAX_CARACTERES = 10;
 
@@ -14,6 +14,12 @@ public class AliasModel {
 
     public void setAlias(String alias) {
         this.alias = (alias != null) ? alias.trim() : "";
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        this.alias = "";
     }
 
     /**

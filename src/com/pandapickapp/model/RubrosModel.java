@@ -4,29 +4,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class RubrosModel {
-    private List<String> rubrosDisponibles;
+public class RubrosModel extends BaseModel<String> {
     private Set<String> rubrosSeleccionados;
-    // Ruta relativa de la base de datos
-    private static final String DB_URL = "jdbc:sqlite:Data/Pandita.db";
 
     public RubrosModel() {
-        this.rubrosDisponibles = new ArrayList<>();
         this.rubrosSeleccionados = new HashSet<>();
         cargarRubrosDesdeBD();
     }
 
     public List<String> getRubrosDisponibles() {
-        return rubrosDisponibles;
+        return getItems();
     }
 
     public void setRubrosDisponibles(List<String> rubros) {
-        this.rubrosDisponibles = rubros;
+        setItems(rubros);
     }
 
     public Set<String> getRubrosSeleccionados() {
@@ -44,7 +39,13 @@ public class RubrosModel {
     public boolean tieneSeleccion() {
         return !rubrosSeleccionados.isEmpty();
     }
-    
+
+    @Override
+    public void reset() {
+        super.reset();
+        this.rubrosSeleccionados = new HashSet<>();
+    }
+
     private void cargarRubrosDesdeBD() {
         String sql = "SELECT nombre FROM rubros";
 
@@ -54,9 +55,9 @@ public class RubrosModel {
 
             while (rs.next()) {
                 String nombreRubro = rs.getString("nombre");
-                rubrosDisponibles.add(nombreRubro);
+                items.add(nombreRubro);
             }
-            System.out.println("Rubros cargados exitosamente desde la base de datos: " + rubrosDisponibles.size());
+            System.out.println("Rubros cargados exitosamente desde la base de datos: " + items.size());
 
         } catch (Exception e) {
             System.err.println("Error al cargar los rubros desde la base de datos:");

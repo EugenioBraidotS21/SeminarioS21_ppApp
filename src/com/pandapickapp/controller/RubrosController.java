@@ -1,10 +1,7 @@
 package com.pandapickapp.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.pandapickapp.commons.RubrosDTO;
 import com.pandapickapp.model.AliasModel;
+
 import com.pandapickapp.model.ProductModel;
 import com.pandapickapp.model.RubrosModel;
 import com.pandapickapp.view.AliasView;
@@ -14,20 +11,22 @@ import com.pandapickapp.view.RubrosView;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class RubrosController {
-    private RubrosModel model;
-    private RubrosView view;
-    private Stage stage;
+
+/*
+ * RubrosController<V,M>:
+ * 						Podemos decir que con los parámetros genericos recibidos el controller 
+ * 						de rubros conoce el modelo y la vista.
+ * */
+
+public class RubrosController extends BaseController<RubrosModel, RubrosView> {
 
     public RubrosController(RubrosModel model, RubrosView view, Stage stage) {
-        this.model = model;
-        this.view = view;
-        this.stage = stage;
+        super(model, view, stage);
         inicializar();
     }
 
-    private void inicializar() {
-    	
+    @Override
+    protected void inicializar() {
         if (model != null && view != null) {
             view.cargarRubros(model.getRubrosDisponibles());
 
@@ -35,7 +34,7 @@ public class RubrosController {
                 cb.selectedProperty().addListener((obs, anterior, seleccionado) ->
                     model.toggleRubro(rubro, seleccionado)));
         }
-        
+
         if (view != null && view.getBtnVerProductos() != null) {
             view.getBtnVerProductos().setOnAction(e -> onVerProductos());
         }
@@ -58,12 +57,11 @@ public class RubrosController {
         ProductView prodView = new ProductView();
         new ProductController(prodModel, prodView, stage, model.getRubrosSeleccionados());
 
-        Scene scene = new Scene(prodView.getRoot(), 380, 520);
+        Scene scene = prodView.crearEscena();
         stage.setTitle("PandaPickApp - Elegí tus productos");
         stage.setScene(scene);
-        
     }
-    
+
     private void onAtras() {
         System.out.println("Cancelando ingreso de Rubros y regresando a Alias...");
 
@@ -75,25 +73,8 @@ public class RubrosController {
         AliasView aliasView = new AliasView();
         new AliasController(aliasModel, aliasView, currentStage);
 
-        Scene aliasScene = new Scene(aliasView.getRoot(), 380, 520);
+        Scene aliasScene = aliasView.crearEscena();
         currentStage.setTitle("PandaPickApp - Alias");
         currentStage.setScene(aliasScene);
     }
-
-    public void dispose() {
-
-    	if (view!=null) {
-    		view.limpiarVista();
-    	}
-    	
-        if (model != null) {
-        	model.setRubrosDisponibles(null);
-        }
-
-        model = null;
-        view = null;
-        stage = null;
-    }
-    
-
 }

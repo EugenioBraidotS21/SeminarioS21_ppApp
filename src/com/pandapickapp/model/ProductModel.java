@@ -12,25 +12,21 @@ import java.util.Map;
 
 import com.pandapickapp.commons.ProductDTO;
 
-public class ProductModel {
-    private List<ProductDTO> ProductList;
+public class ProductModel extends BaseModel<ProductDTO> {
     private ProductDTO productoSeleccionado;
     private int cantidadSeleccionada;
     private Map<ProductDTO, Integer> carrito;
-    private static final String DB_URL = "jdbc:sqlite:Data/Pandita.db";
-    
     public ProductModel() {
-        this.ProductList = new ArrayList<>();
         this.carrito = new HashMap<>();
         this.cantidadSeleccionada = 1;
     }
 
     public List<ProductDTO> getListaProductos() {
-        return ProductList;
+        return getItems();
     }
 
     public void setListaProductos(List<ProductDTO> listaProductos) {
-        this.ProductList = listaProductos;
+        setItems(listaProductos);
     }
 
     public ProductDTO getProductoSeleccionado() {
@@ -131,5 +127,13 @@ public class ProductModel {
     }
     public Map<ProductDTO, Integer> getCarrito() {
         return carrito;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        this.carrito = new HashMap<>();
+        this.productoSeleccionado = null;
+        this.cantidadSeleccionada = 1;
     }
 }

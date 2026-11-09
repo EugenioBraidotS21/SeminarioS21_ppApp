@@ -1,7 +1,6 @@
 package com.pandapickapp.view;
 
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,8 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.SVGPath;
 
-public class AliasView {
-    private VBox root;
+public class AliasView extends BaseView<VBox> {
     private TextField txtAlias;
     private Label lblError;
     private Button btnContinuar;
@@ -23,7 +21,8 @@ public class AliasView {
         crearInterfaz();
     }
 
-    private void crearInterfaz() {
+    @Override
+    protected void crearInterfaz() {
         // 1. Ícono de usuario con círculo exterior
         StackPane iconPane = crearIconoUsuario();
 
@@ -120,10 +119,6 @@ public class AliasView {
         return pane;
     }
 
-    public Parent getRoot() {
-        return root;
-    }
-
     public TextField getTxtAlias() {
         return txtAlias;
     }
@@ -167,6 +162,7 @@ public class AliasView {
     /**
      * Limpia los componentes visuales para no retener datos en memoria.
      */
+    @Override
     public void limpiarVista() {
         if (txtAlias != null) {
             txtAlias.clear();

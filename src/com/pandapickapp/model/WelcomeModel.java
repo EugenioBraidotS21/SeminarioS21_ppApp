@@ -1,6 +1,6 @@
 package com.pandapickapp.model;
 
-public class WelcomeModel {
+public class WelcomeModel extends BaseModel<Void> {
     private String titulo;
     private String subtitulo;
 

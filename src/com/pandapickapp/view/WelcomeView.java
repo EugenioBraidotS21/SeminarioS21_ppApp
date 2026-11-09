@@ -1,13 +1,11 @@
 package com.pandapickapp.view;
 
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class WelcomeView {
-    private VBox root;
+public class WelcomeView extends BaseView<VBox> {
     private Label lblTitulo;
     private Label lblSubtitulo;
     private Button btnIngresar;
@@ -16,7 +14,8 @@ public class WelcomeView {
         crearInterfaz();
     }
 
-    private void crearInterfaz() {
+    @Override
+    protected void crearInterfaz() {
         lblTitulo = new Label();
         lblTitulo.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
@@ -46,10 +45,6 @@ public class WelcomeView {
         root.setAlignment(Pos.CENTER);
         root.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 40;");
         root.getChildren().addAll(lblTitulo, lblSubtitulo, btnIngresar);
-    }
-
-    public Parent getRoot() {
-        return root;
     }
 
     public Button getBtnIngresar() {

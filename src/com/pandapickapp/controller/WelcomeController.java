@@ -8,20 +8,15 @@ import com.pandapickapp.view.WelcomeView;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class WelcomeController {
-    private WelcomeModel model;
-    private WelcomeView view;
-    @SuppressWarnings("unused")
-    private Stage stage;
+public class WelcomeController extends BaseController<WelcomeModel, WelcomeView> {
 
     public WelcomeController(WelcomeModel model, WelcomeView view, Stage stage) {
-        this.model = model;
-        this.view = view;
-        this.stage= stage;
+        super(model, view, stage);
         inicializar();
     }
 
-    private void inicializar() {
+    @Override
+    protected void inicializar() {
         // Enlazar datos iniciales
         view.setTitulo(model.getTitulo());
         view.setSubtitulo(model.getSubtitulo());
@@ -31,9 +26,9 @@ public class WelcomeController {
     }
 
     private void onIngresarClicked() {
-    	System.out.println("Navegando a la pantalla de Alias...");
+        System.out.println("Navegando a la pantalla de Alias...");
 
-    	// Obtener la ventana actual desde cualquier control de la vista
+        // Obtener la ventana actual desde cualquier control de la vista
         Stage currentStage = (Stage) view.getBtnIngresar().getScene().getWindow();
 
         // Instanciar el nuevo módulo
@@ -41,7 +36,7 @@ public class WelcomeController {
         AliasView aliasView = new AliasView();
         new AliasController(aliasModel, aliasView, currentStage);
 
-        Scene aliasScene = new Scene(aliasView.getRoot(), 380, 520);
+        Scene aliasScene = aliasView.crearEscena();
         currentStage.setTitle("PandaPickApp - Ingrese su alias");
         currentStage.setScene(aliasScene);
         currentStage.centerOnScreen();
