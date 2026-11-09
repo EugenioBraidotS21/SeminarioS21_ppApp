@@ -23,14 +23,14 @@ public class AliasView extends BaseView<VBox> {
 
     @Override
     protected void crearInterfaz() {
-        // 1. Ícono de usuario con círculo exterior
+        // Ícono de usuario con círculo exterior
         StackPane iconPane = crearIconoUsuario();
 
-        // 2. Título principal
+        // Título principal
         Label lblTitulo = new Label("Ingrese su alias");
         lblTitulo.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;");
 
-        // 3. Campo de texto con límite visible
+        // Campo de texto con límite visible
         txtAlias = new TextField();
         txtAlias.setPromptText("Máximo 10 caracteres");
         txtAlias.setMaxWidth(240);
@@ -44,13 +44,13 @@ public class AliasView extends BaseView<VBox> {
             "-fx-prompt-text-fill: #9ca3af;"
         );
 
-        // 4. Etiqueta de error
+        // Etiqueta de error
         lblError = new Label("");
         lblError.setStyle("-fx-text-fill: #b91c1c; -fx-font-size: 12px;");
         lblError.setVisible(false);
         lblError.setManaged(false); // No ocupa espacio cuando no se muestra
         
-     // 5. Estilos compartidos para no duplicar código
+     // Estilos compartidos para no duplicar código
         String estiloNormal = 
             "-fx-background-color: #ffffff; " +
             "-fx-border-color: #d1d5db; " +
@@ -80,19 +80,19 @@ public class AliasView extends BaseView<VBox> {
         btnAtras.setOnMouseEntered(e -> btnAtras.setStyle(estiloHover));
         btnAtras.setOnMouseExited(e -> btnAtras.setStyle(estiloNormal));
 
-        // 7. Botón Continuar
+        // Botón Continuar
         btnContinuar = new Button("Continuar");
         btnContinuar.setMinWidth(120);
         btnContinuar.setStyle(estiloNormal);
         btnContinuar.setOnMouseEntered(e -> btnContinuar.setStyle(estiloHover));
         btnContinuar.setOnMouseExited(e -> btnContinuar.setStyle(estiloNormal));
 
-        // 8. HBox para colocarlos lado a lado
+        // HBox para colocarlos lado a lado
         HBox contenedorBotones = new HBox(12); // 12px de separación entre botones
         contenedorBotones.setAlignment(Pos.CENTER);
         contenedorBotones.getChildren().addAll(btnAtras, btnContinuar);
        
-        // 9. Contenedor principal centrado
+        // Contenedor principal centrado
         root = new VBox(14);
         root.setAlignment(Pos.CENTER);
         root.setStyle("-fx-background-color: #ffffff; -fx-padding: 40;");
