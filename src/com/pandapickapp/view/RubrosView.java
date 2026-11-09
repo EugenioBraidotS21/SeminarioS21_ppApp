@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.pandapickapp.model.AliasModel;
+import com.pandapickapp.model.RubrosModel;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -20,17 +22,15 @@ public class RubrosView {
     private VBox root;
     private VBox contenedorRubros;
     private Button btnVerProductos;
+    private Button btnAtrasProductos;
     private Map<String, CheckBox> checkBoxes;
     private AliasModel aliasModel;
+    private RubrosModel rubrosModel;
 
-    public RubrosView() {
+    public RubrosView(AliasModel aliasModel, RubrosModel rubrosModel) {
         this.checkBoxes = new HashMap<>();
-        crearInterfaz();
-    }
-    
-    public RubrosView(AliasModel model) {
-        this.checkBoxes = new HashMap<>();
-        aliasModel= model;
+        this.rubrosModel= rubrosModel;
+        this.aliasModel= aliasModel;
         crearInterfaz();
     }
 
@@ -71,6 +71,20 @@ public class RubrosView {
             "-fx-padding: 9 20; " +
             "-fx-cursor: hand;"
         );
+        
+        btnAtrasProductos = new Button("Atras");
+        btnAtrasProductos.setMaxWidth(Double.MAX_VALUE);
+        btnAtrasProductos.setStyle(
+            "-fx-background-color: #ffffff; " +
+            "-fx-border-color: #d1d5db; " +
+            "-fx-border-radius: 8px; " +
+            "-fx-background-radius: 8px; " +
+            "-fx-text-fill: #111827; " +
+            "-fx-font-size: 14px; " +
+            "-fx-font-weight: 600; " +
+            "-fx-padding: 9 20; " +
+            "-fx-cursor: hand;"
+        );
 
         btnVerProductos.setOnMouseEntered(e -> btnVerProductos.setStyle(
             "-fx-background-color: #f3f4f6; -fx-border-color: #9ca3af; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-text-fill: #111827; -fx-font-size: 14px; -fx-font-weight: 600; -fx-padding: 9 20; -fx-cursor: hand;"
@@ -78,12 +92,25 @@ public class RubrosView {
         btnVerProductos.setOnMouseExited(e -> btnVerProductos.setStyle(
             "-fx-background-color: #ffffff; -fx-border-color: #d1d5db; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-text-fill: #111827; -fx-font-size: 14px; -fx-font-weight: 600; -fx-padding: 9 20; -fx-cursor: hand;"
         ));
-
+        
+        btnAtrasProductos.setOnMouseEntered(e -> btnAtrasProductos.setStyle(
+                "-fx-background-color: #f3f4f6; -fx-border-color: #9ca3af; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-text-fill: #111827; -fx-font-size: 14px; -fx-font-weight: 600; -fx-padding: 9 20; -fx-cursor: hand;"
+            ));
+        btnAtrasProductos.setOnMouseExited(e -> btnAtrasProductos.setStyle(
+                "-fx-background-color: #ffffff; -fx-border-color: #d1d5db; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-text-fill: #111827; -fx-font-size: 14px; -fx-font-weight: 600; -fx-padding: 9 20; -fx-cursor: hand;"
+            ));
+        
+        // 8. HBox para colocarlos lado a lado
+        HBox contenedorBotones = new HBox(12); // 12px de separación entre botones
+        contenedorBotones.setAlignment(Pos.CENTER);
+        contenedorBotones.getChildren().addAll(btnAtrasProductos, btnVerProductos);
+        
         // Layout general
         root = new VBox(20);
         root.setPadding(new Insets(30, 24, 25, 24));
         root.setStyle("-fx-background-color: #ffffff;");
-        root.getChildren().addAll(lblHeader,lblTitulo, contenedorRubros, spacer, btnVerProductos);
+        this.cargarRubros(rubrosModel.getRubrosDisponibles());
+        root.getChildren().addAll(lblHeader,lblTitulo, contenedorRubros, spacer, contenedorBotones);
     }
 
     /**
@@ -92,6 +119,13 @@ public class RubrosView {
     public void cargarRubros(List<String> rubros) {
         contenedorRubros.getChildren().clear();
         checkBoxes.clear();
+
+        if (rubros == null || rubros.isEmpty()) {
+            Label vacio = new Label("No hay rubros disponibles");
+            vacio.setStyle("-fx-text-fill: #6b7280; -fx-font-size: 14px;");
+            contenedorRubros.getChildren().add(vacio);
+            return;
+        }
 
         for (String rubro : rubros) {
             CheckBox cb = new CheckBox(rubro);
@@ -122,11 +156,26 @@ public class RubrosView {
         return root;
     }
 
-    public Button getBtnVerProductos() {
-        return btnVerProductos;
-    }
 
     public Map<String, CheckBox> getCheckBoxes() {
         return checkBoxes;
     }
+
+
+	public void limpiarVista() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public Button getBtnVerProductos() {
+		// TODO Auto-generated method stub
+		return btnVerProductos;
+	}
+
+
+	public Button getBtnAtrasProducto() {
+		// TODO Auto-generated method stub
+		return  btnAtrasProductos;
+	}
 }

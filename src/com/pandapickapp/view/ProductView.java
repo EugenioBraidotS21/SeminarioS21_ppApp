@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import com.pandapickapp.model.ProductDTO;
+import com.pandapickapp.commons.ProductDTO;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

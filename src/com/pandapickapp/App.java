@@ -2,6 +2,7 @@ package com.pandapickapp;
 
 import com.pandapickapp.controller.WelcomeController;
 import com.pandapickapp.model.WelcomeModel;
+import com.pandapickapp.util.IniciaBase;
 import com.pandapickapp.view.WelcomeView;
 
 import javafx.application.Application;
@@ -27,11 +28,14 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+    	
+    	IniciaBase.inicializarBaseDeDatos("jdbc:sqlite:Data/Pandita.db");
+    	
     	// Instanciación MVC para la Bievenida.
         WelcomeModel model = new WelcomeModel();
         WelcomeView view = new WelcomeView();
         new WelcomeController(model, view, primaryStage);
-
+        
         // Configuración de la ventana inicial
         Scene scene = new Scene(view.getRoot(), 1000, 1000);
         primaryStage.setTitle("Bienvenido a Panda Pick APP");

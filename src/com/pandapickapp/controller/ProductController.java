@@ -6,7 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.pandapickapp.model.ProductDTO;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.pandapickapp.commons.ProductDTO;
 import com.pandapickapp.model.ProductModel;
 import com.pandapickapp.view.ProductView;
 
@@ -17,7 +23,8 @@ public class ProductController {
     private ProductView view;
     private Stage stage;
     private Set<String> rubrosFiltro;
-
+  
+    
     public ProductController(ProductModel model, ProductView view, Stage stage, Set<String> rubrosFiltro) {
         this.model = model;
         this.view = view;
@@ -26,16 +33,10 @@ public class ProductController {
         inicializar();
     }
 
+      
     private void inicializar() {
         // Armamos un array como catalogo de productos hasta tener la Base operativa
-        List<ProductDTO> catalogo = new ArrayList<ProductDTO>();
-        catalogo.add(new ProductDTO("Bon o Bon", 500, "Golosinas"));
-        catalogo.add(new ProductDTO("Alfajor Guaylen x40", 250, "Golosinas"));
-        catalogo.add(new ProductDTO("Agua mineral 500ml", 350, "Bebidas"));
-        catalogo.add(new ProductDTO("Gaseosa Cola 600ml", 600, "Bebidas"));
-        catalogo.add(new ProductDTO("Papas Clásicas 85g", 700, "Snacks"));
-        catalogo.add(new ProductDTO("Medialunas x3", 450, "Panificados"));
-
+        List<ProductDTO> catalogo = model.cargarCatalogoDesdeBD();
         this.model.setListaProductos(catalogo);
 
         //Agrupamos por rubro (filtrando según lo seleccionado en la pantalla previa si corresponde)

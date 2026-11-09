@@ -17,7 +17,7 @@ public class AliasView {
     private TextField txtAlias;
     private Label lblError;
     private Button btnContinuar;
-    private Button btnCancelar;
+    private Button btnAtras;
 
     public AliasView() {
         crearInterfaz();
@@ -74,12 +74,12 @@ public class AliasView {
             "-fx-padding: 8 20; " +
             "-fx-cursor: hand;";
 
-        // 6. Botón Cancelar
-        btnCancelar = new Button("Cancelar");
-        btnCancelar.setMinWidth(120);
-        btnCancelar.setStyle(estiloNormal);
-        btnCancelar.setOnMouseEntered(e -> btnCancelar.setStyle(estiloHover));
-        btnCancelar.setOnMouseExited(e -> btnCancelar.setStyle(estiloNormal));
+        // Botón Atras
+        btnAtras = new Button("Atras");
+        btnAtras.setMinWidth(120);
+        btnAtras.setStyle(estiloNormal);
+        btnAtras.setOnMouseEntered(e -> btnAtras.setStyle(estiloHover));
+        btnAtras.setOnMouseExited(e -> btnAtras.setStyle(estiloNormal));
 
         // 7. Botón Continuar
         btnContinuar = new Button("Continuar");
@@ -91,7 +91,7 @@ public class AliasView {
         // 8. HBox para colocarlos lado a lado
         HBox contenedorBotones = new HBox(12); // 12px de separación entre botones
         contenedorBotones.setAlignment(Pos.CENTER);
-        contenedorBotones.getChildren().addAll(btnCancelar, btnContinuar);
+        contenedorBotones.getChildren().addAll(btnAtras, btnContinuar);
        
         // 9. Contenedor principal centrado
         root = new VBox(14);
@@ -160,8 +160,8 @@ public class AliasView {
         );
     }
 
-    public Button getBtnCancelar() {
-        return btnCancelar;
+    public Button getBtnAtras() {
+        return btnAtras;
     }
 
     /**
